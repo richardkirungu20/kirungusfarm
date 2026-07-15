@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hollow Creek Farm</title>
+<title>Kirungu's Farm — Ornamental Poultry &amp; Rabbits</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500;700&family=Work+Sans:wght@400;500;600&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
 <style>
@@ -133,8 +133,12 @@
   .section-head .eyebrow{color:var(--barn-red);}
   .section-head h2{font-size:2.1rem;}
   .animal-grid{
-    display:grid; grid-template-columns:repeat(3, 1fr); gap:28px;
+    display:grid; grid-template-columns:repeat(auto-fit, minmax(210px, 1fr)); gap:24px;
   }
+  .animal-card.coming-soon{
+    border-style:dashed; opacity:0.72; background:transparent;
+  }
+  .animal-card.coming-soon:hover{transform:none; box-shadow:none;}
   .animal-card{
     background:var(--cream); border:1px solid var(--line); border-radius:8px;
     padding:28px 24px; transition:transform 0.2s ease, box-shadow 0.2s ease;
@@ -146,6 +150,27 @@
   .animal-card .tag{
     display:inline-block; margin-top:14px; font-size:0.78rem; font-weight:600;
     text-transform:uppercase; letter-spacing:0.06em; color:var(--barn-red);
+  }
+
+  /* GALLERY */
+  .gallery{background:var(--cream); padding:84px 0;}
+  .gallery-grid{
+    display:grid; grid-template-columns:repeat(auto-fit, minmax(190px, 1fr)); gap:18px;
+  }
+  .photo-frame{
+    aspect-ratio:4/5; border-radius:8px; position:relative; overflow:hidden;
+    background:linear-gradient(135deg, #E4D9C0 0%, #D8CAA8 100%);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:10px; border:1px solid var(--line);
+  }
+  .photo-frame img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;}
+  .photo-frame svg{width:34px; height:34px; opacity:0.45;}
+  .photo-frame .cap{
+    font-size:0.82rem; font-weight:600; color:rgba(43,38,32,0.55);
+    letter-spacing:0.03em; text-align:center; padding:0 10px;
+  }
+  .gallery-note{
+    margin-top:24px; font-size:0.9rem; color:rgba(43,38,32,0.6); max-width:56ch;
   }
 
   /* VALUES */
@@ -178,6 +203,87 @@
   input:focus, textarea:focus{border-color:var(--barn-red); outline:none;}
   .form-status{font-size:0.88rem; color:var(--moss); min-height:1.2em;}
 
+  /* FAQ CHAT WIDGET */
+  .chat-toggle{
+    position:fixed; right:24px; bottom:24px; z-index:100;
+    width:58px; height:58px; border-radius:50%;
+    background:var(--barn-red); color:var(--cream-soft); border:none; cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 10px 24px rgba(43,38,32,0.28);
+    transition:transform 0.15s ease;
+  }
+  .chat-toggle:hover{transform:scale(1.06);}
+  .chat-toggle svg{width:26px; height:26px;}
+  .chat-toggle .chat-toggle-close{display:none;}
+  .chat-toggle.open .chat-toggle-chat{display:none;}
+  .chat-toggle.open .chat-toggle-close{display:block;}
+  .chat-badge{
+    position:absolute; top:-2px; right:-2px; width:14px; height:14px; border-radius:50%;
+    background:var(--yolk); border:2px solid var(--cream-soft);
+  }
+
+  .chat-panel{
+    position:fixed; right:24px; bottom:94px; z-index:99;
+    width:340px; max-width:calc(100vw - 48px);
+    height:460px; max-height:calc(100vh - 140px);
+    background:var(--cream-soft); border-radius:12px;
+    box-shadow:0 20px 50px rgba(43,38,32,0.3);
+    display:flex; flex-direction:column; overflow:hidden;
+    opacity:0; transform:translateY(16px) scale(0.98); pointer-events:none;
+    transition:opacity 0.18s ease, transform 0.18s ease;
+  }
+  .chat-panel.open{opacity:1; transform:translateY(0) scale(1); pointer-events:auto;}
+
+  .chat-head{
+    background:var(--barn-red); color:var(--cream-soft); padding:16px 18px;
+    display:flex; flex-direction:column; gap:2px;
+  }
+  .chat-head strong{font-family:'Roboto Slab'; font-size:1rem;}
+  .chat-head span{font-size:0.78rem; color:rgba(250,246,236,0.75);}
+
+  .chat-body{
+    flex:1; overflow-y:auto; padding:16px; display:flex; flex-direction:column; gap:10px;
+    background:var(--cream);
+  }
+  .chat-msg{
+    max-width:82%; padding:9px 13px; border-radius:12px; font-size:0.88rem; line-height:1.45;
+  }
+  .chat-msg.bot{
+    background:var(--cream-soft); border:1px solid var(--line); align-self:flex-start;
+    border-bottom-left-radius:3px;
+  }
+  .chat-msg.user{
+    background:var(--moss); color:var(--cream-soft); align-self:flex-end;
+    border-bottom-right-radius:3px;
+  }
+  .chat-quick{display:flex; flex-wrap:wrap; gap:6px; padding:0 16px 12px; background:var(--cream);}
+  .chat-chip{
+    font-size:0.78rem; padding:6px 11px; border-radius:20px; border:1px solid var(--barn-red);
+    background:transparent; color:var(--barn-red); cursor:pointer; font-weight:600;
+    transition:background 0.15s ease, color 0.15s ease;
+  }
+  .chat-chip:hover{background:var(--barn-red); color:var(--cream-soft);}
+
+  .chat-input-row{
+    display:flex; gap:8px; padding:12px; border-top:1px solid var(--line); background:var(--cream-soft);
+  }
+  .chat-input-row input{
+    flex:1; padding:9px 12px; border:1.5px solid var(--line); border-radius:20px;
+    font-family:'Work Sans'; font-size:0.86rem; background:var(--cream);
+  }
+  .chat-input-row input:focus{border-color:var(--barn-red); outline:none;}
+  .chat-send{
+    width:36px; height:36px; border-radius:50%; border:none; background:var(--yolk);
+    color:var(--ink); cursor:pointer; display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+  }
+  .chat-send svg{width:16px; height:16px;}
+
+  @media (max-width:480px){
+    .chat-panel{right:12px; bottom:82px; width:calc(100vw - 24px);}
+    .chat-toggle{right:16px; bottom:16px;}
+  }
+
   footer{
     background:var(--moss-dark); color:rgba(250,246,236,0.6);
     padding:32px 0; text-align:center; font-size:0.85rem;
@@ -199,10 +305,11 @@
 
 <nav>
   <div class="wrap">
-    <div class="brand">Hollow Creek <span>Farm</span></div>
+    <div class="brand">Kirungu's <span>Farm</span></div>
     <ul>
-      <li><a href="#stand">The Stand</a></li>
+      <li><a href="#stand">Available Now</a></li>
       <li><a href="#animals">Our Animals</a></li>
+      <li><a href="#gallery">Gallery</a></li>
       <li><a href="#visit">Visit</a></li>
     </ul>
   </div>
@@ -210,34 +317,37 @@
 
 <header class="hero">
   <div class="wrap">
-    <span class="eyebrow">a small farm, honestly run</span>
-    <h1>Raised on grass,<br>sold at the gate.</h1>
-    <p class="lede">Pasture eggs, raw honey, and goat milk soap from a family farm outside town. No middlemen, no mystery ingredients — just what came off the land this week.</p>
+    <span class="eyebrow">a family farm raising ornamental birds &amp; rabbits</span>
+    <h1>Bred for beauty,<br>raised for the table too.</h1>
+    <p class="lede">Brahmas, Orpingtons, Silkies, Polish, and Sebrights alongside a growing rabbitry — eggs, meat, chicks, bunnies, and mature stock, all off one farm.</p>
     <div class="hero-cta">
-      <a href="#stand" class="btn btn-primary">See what's fresh</a>
+      <a href="#stand" class="btn btn-primary">See what's available</a>
       <a href="#visit" class="btn btn-ghost">Get directions</a>
     </div>
   </div>
   <svg class="hero-mark" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M100 20 L170 65 V150 H30 V65 L100 20Z" stroke="#FAF6EC" stroke-width="3"/>
-    <path d="M100 20 L170 65 H30 L100 20Z" stroke="#FAF6EC" stroke-width="3"/>
-    <rect x="85" y="105" width="30" height="45" stroke="#FAF6EC" stroke-width="3"/>
+    <path d="M100 15 C130 30 145 70 130 120 C120 155 100 180 100 180 C100 180 80 155 70 120 C55 70 70 30 100 15Z" stroke="#FAF6EC" stroke-width="3"/>
+    <path d="M100 20 L100 175" stroke="#FAF6EC" stroke-width="2"/>
+    <path d="M100 40 L75 55M100 60 L72 75M100 80 L70 96M100 100 L72 116M100 120 L76 134M100 140 L82 150" stroke="#FAF6EC" stroke-width="2"/>
+    <path d="M100 40 L125 55M100 60 L128 75M100 80 L130 96M100 100 L128 116M100 120 L124 134M100 140 L118 150" stroke="#FAF6EC" stroke-width="2"/>
   </svg>
 </header>
 
 <section class="board-section" id="stand">
   <div class="wrap">
     <div class="board">
-      <h2>This Week at the Stand</h2>
-      <div class="sub">Cash, card, or trade — self-serve on weekdays</div>
+      <h2>Available Now</h2>
+      <div class="sub">Reserve by message — first hatch or litter, first pick</div>
       <ul class="board-list">
-        <li><span class="item">Dozen pasture eggs</span><span class="fill"></span><span class="price">$6</span></li>
-        <li><span class="item">Raw wildflower honey, 12oz</span><span class="fill"></span><span class="price">$11</span></li>
-        <li><span class="item">Goat milk soap, bar</span><span class="fill"></span><span class="price">$7</span></li>
-        <li><span class="item">Fresh chevre, 8oz</span><span class="fill"></span><span class="price">$9</span></li>
-        <li><span class="item">Wool roving, 4oz</span><span class="fill"></span><span class="price">$14</span></li>
+        <li><span class="item">Brahma / Orpington chicks</span><span class="fill"></span><span class="price">$20</span></li>
+        <li><span class="item">Silkie / Polish chicks</span><span class="fill"></span><span class="price">$18</span></li>
+        <li><span class="item">Sebright trio</span><span class="fill"></span><span class="price">$120</span></li>
+        <li><span class="item">Rabbit kits, mixed breed</span><span class="fill"></span><span class="price">$15</span></li>
+        <li><span class="item">Mature laying hens</span><span class="fill"></span><span class="price">$35</span></li>
+        <li><span class="item">Hatching eggs, dozen</span><span class="fill"></span><span class="price">$40</span></li>
+        <li><span class="item">Dressed meat birds &amp; rabbit</span><span class="fill"></span><span class="price">mkt price / lb</span></li>
       </ul>
-      <div class="board-note"><span class="dot"></span> Eggs restocked Tuesdays &amp; Fridays</div>
+      <div class="board-note"><span class="dot"></span> Next hatch: August 2nd — waitlist open</div>
     </div>
   </div>
 </section>
@@ -246,54 +356,147 @@
   <div class="wrap">
     <div class="section-head">
       <span class="eyebrow">who's on the farm</span>
-      <h2>Twenty-some hens, eleven goats, and one very opinionated rooster.</h2>
+      <h2>Five ornamental breeds, a growing rabbitry, and peacocks on the way.</h2>
     </div>
     <div class="animal-grid">
       <div class="animal-card">
         <svg viewBox="0 0 64 64" fill="none" stroke="#8B3A3A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M20 40c0-12 8-22 18-22 6 0 9 4 9 4s6-2 8 4c1 3-1 5-3 5"/>
-          <circle cx="34" cy="24" r="2" fill="#8B3A3A"/>
-          <path d="M20 40c-3 2-5 5-5 8h30c0-10-6-16-14-16"/>
-          <path d="M40 48l2 8M28 48l-2 8"/>
+          <path d="M18 34c0-12 9-22 20-22 6 0 9 4 9 4s6-2 8 4c1 3-1 5-3 5"/>
+          <circle cx="33" cy="18" r="1.8" fill="#8B3A3A"/>
+          <path d="M18 34c-3 2-5 5-5 8h32c0-10-6-16-13-16"/>
+          <path d="M26 46q-2 4 0 8M38 46q2 4 0 8"/>
+          <path d="M22 44l-2 3M42 44l2 3"/>
         </svg>
-        <h3>The Hens</h3>
-        <p>Free to roam the orchard by day, tucked into the coop by dusk. Fed kitchen scraps and layer feed, never hormones.</p>
-        <span class="tag">Eggs · daily</span>
+        <h3>Brahma</h3>
+        <p>A gentle giant with heavily feathered legs down to the toes. Calm, cold-hardy, and hard to miss in the yard.</p>
+        <span class="tag">Chicks, eggs &amp; mature birds</span>
       </div>
       <div class="animal-card">
         <svg viewBox="0 0 64 64" fill="none" stroke="#8B3A3A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M18 30c0-8 6-14 14-14s14 6 14 14-6 20-14 20-14-12-14-20Z"/>
-          <path d="M22 16l-4-8M42 16l4-8"/>
-          <circle cx="27" cy="26" r="1.6" fill="#8B3A3A"/>
-          <circle cx="37" cy="26" r="1.6" fill="#8B3A3A"/>
-          <path d="M28 34c2 2 6 2 8 0"/>
+          <path d="M18 36c0-11 8-20 18-20 6 0 9 4 9 4s6-2 8 4c1 3-1 5-3 5"/>
+          <circle cx="32" cy="20" r="1.8" fill="#8B3A3A"/>
+          <path d="M18 36c-4 3-6 6-6 8h32c0-10-6-15-13-15"/>
+          <path d="M26 48q0 4 0 6M38 48q0 4 0 6"/>
         </svg>
-        <h3>The Goats</h3>
-        <p>Alpine and Nubian does, milked twice a day. Rotational grazing keeps them — and the pasture — healthy.</p>
-        <span class="tag">Milk &amp; soap</span>
+        <h3>Orpington</h3>
+        <p>Round, plush, and famously friendly. A reliable dual-purpose bird that lays well and dresses out heavy.</p>
+        <span class="tag">Chicks, eggs &amp; meat</span>
       </div>
       <div class="animal-card">
         <svg viewBox="0 0 64 64" fill="none" stroke="#8B3A3A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <ellipse cx="32" cy="34" rx="14" ry="11"/>
-          <path d="M20 30h24M22 38h20"/>
-          <path d="M46 30l8-6M46 38l8 4"/>
-          <circle cx="26" cy="28" r="1.4" fill="#8B3A3A"/>
+          <circle cx="23" cy="17" r="7"/>
+          <path d="M20 30c0-8 7-16 16-16 5 0 8 3 8 3s5-1 7 4c1 3-1 4-2 4"/>
+          <path d="M20 30c-3 2-5 5-5 8h28c0-9-5-14-12-14"/>
+          <path d="M28 46q1 4 0 8M38 46q1 4 0 8"/>
         </svg>
-        <h3>The Bees</h3>
-        <p>Six hives at the edge of the clover field. We take only what's extra, so the colonies stay strong through winter.</p>
-        <span class="tag">Honey · seasonal</span>
+        <h3>Silkie</h3>
+        <p>Fluffy, hair-like plumage and a calm temperament. The one guests always want to hold first.</p>
+        <span class="tag">Chicks &amp; hatching eggs</span>
+      </div>
+      <div class="animal-card">
+        <svg viewBox="0 0 64 64" fill="none" stroke="#8B3A3A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="28" cy="13" r="9"/>
+          <path d="M22 28c0-7 6-14 14-14 5 0 7 3 7 3s5-1 7 3c1 3-1 4-2 4"/>
+          <path d="M22 28c-3 2-5 5-5 8h27c0-9-5-14-11-14"/>
+          <path d="M30 44l1 8M40 44l1 8"/>
+        </svg>
+        <h3>Polish</h3>
+        <p>Famous for the dramatic burst of feathers on top of the head. Striking in a show pen, comical in a rainstorm.</p>
+        <span class="tag">Breeding pairs</span>
+      </div>
+      <div class="animal-card">
+        <svg viewBox="0 0 64 64" fill="none" stroke="#8B3A3A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 32c0-11 8-20 18-20 6 0 9 4 9 4s6-2 8 4c1 3-1 5-3 5"/>
+          <circle cx="32" cy="17" r="1.8" fill="#8B3A3A"/>
+          <path d="M18 32c-3 2-5 5-5 8h28c0-9-5-14-12-14"/>
+          <path d="M14 26c-4-2-6-7-4-11"/>
+          <circle cx="24" cy="30" r="1" fill="#8B3A3A"/><circle cx="30" cy="34" r="1" fill="#8B3A3A"/><circle cx="36" cy="30" r="1" fill="#8B3A3A"/>
+        </svg>
+        <h3>Sebright</h3>
+        <p>A true bantam with tight, laced feather patterning and an upright tail. One of the oldest ornamental breeds still kept.</p>
+        <span class="tag">Trios &amp; show stock</span>
+      </div>
+      <div class="animal-card">
+        <svg viewBox="0 0 64 64" fill="none" stroke="#8B3A3A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <ellipse cx="32" cy="40" rx="15" ry="11"/>
+          <path d="M25 30c-3-9-1-17 1-17c2 0 3 8 2 16"/>
+          <path d="M39 30c3-9 1-17-1-17c-2 0-3 8-2 16"/>
+          <circle cx="27" cy="36" r="1.4" fill="#8B3A3A"/>
+          <path d="M32 40q2 2 0 4"/>
+          <path d="M20 48l-3 6M44 48l3 6"/>
+        </svg>
+        <h3>Rabbits</h3>
+        <p>A small, growing rabbitry alongside the birds. Kits and mature does and bucks, raised for pets, breeding, or meat.</p>
+        <span class="tag">Kits, bunnies &amp; mature stock</span>
+      </div>
+      <div class="animal-card coming-soon">
+        <svg viewBox="0 0 64 64" fill="none" stroke="#8B3A3A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="32" cy="20" r="4"/>
+          <path d="M32 24v24"/>
+          <path d="M32 12v-6"/>
+          <path d="M18 46c1-11 7-20 14-20c7 0 13 9 14 20"/>
+          <path d="M14 44c4-14 10-22 18-22M50 44c-4-14-10-22-18-22"/>
+          <circle cx="21" cy="38" r="2"/><circle cx="32" cy="32" r="2"/><circle cx="43" cy="38" r="2"/>
+        </svg>
+        <h3>Peacocks</h3>
+        <p>Next on the list. We're building out pens now for our first breeding pair, with chicks to follow.</p>
+        <span class="tag">Coming soon</span>
       </div>
     </div>
+  </div>
+</section>
+
+<section class="gallery" id="gallery">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">see them for yourself</span>
+      <h2>A look around the farm.</h2>
+    </div>
+    <div class="gallery-grid">
+      <!-- Each frame below is a placeholder. Replace the empty <img src=""> with your
+           real photo's file path (e.g. src="photos/brahma-1.jpg") to swap it in. -->
+      <div class="photo-frame">
+        <img src="" alt="Brahma chicken at Kirungu's Farm" onerror="this.style.display='none'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#2B2620" stroke-width="1.6"><rect x="3" y="6" width="18" height="14" rx="2"/><circle cx="12" cy="13" r="3.5"/><path d="M8 6l1.5-2h5L16 6"/></svg>
+        <span class="cap">Brahma</span>
+      </div>
+      <div class="photo-frame">
+        <img src="" alt="Orpington chicken at Kirungu's Farm" onerror="this.style.display='none'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#2B2620" stroke-width="1.6"><rect x="3" y="6" width="18" height="14" rx="2"/><circle cx="12" cy="13" r="3.5"/><path d="M8 6l1.5-2h5L16 6"/></svg>
+        <span class="cap">Orpington</span>
+      </div>
+      <div class="photo-frame">
+        <img src="" alt="Silkie chicken at Kirungu's Farm" onerror="this.style.display='none'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#2B2620" stroke-width="1.6"><rect x="3" y="6" width="18" height="14" rx="2"/><circle cx="12" cy="13" r="3.5"/><path d="M8 6l1.5-2h5L16 6"/></svg>
+        <span class="cap">Silkie</span>
+      </div>
+      <div class="photo-frame">
+        <img src="" alt="Polish chicken at Kirungu's Farm" onerror="this.style.display='none'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#2B2620" stroke-width="1.6"><rect x="3" y="6" width="18" height="14" rx="2"/><circle cx="12" cy="13" r="3.5"/><path d="M8 6l1.5-2h5L16 6"/></svg>
+        <span class="cap">Polish</span>
+      </div>
+      <div class="photo-frame">
+        <img src="" alt="Sebright chicken at Kirungu's Farm" onerror="this.style.display='none'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#2B2620" stroke-width="1.6"><rect x="3" y="6" width="18" height="14" rx="2"/><circle cx="12" cy="13" r="3.5"/><path d="M8 6l1.5-2h5L16 6"/></svg>
+        <span class="cap">Sebright</span>
+      </div>
+      <div class="photo-frame">
+        <img src="" alt="Rabbits at Kirungu's Farm" onerror="this.style.display='none'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#2B2620" stroke-width="1.6"><rect x="3" y="6" width="18" height="14" rx="2"/><circle cx="12" cy="13" r="3.5"/><path d="M8 6l1.5-2h5L16 6"/></svg>
+        <span class="cap">Rabbits</span>
+      </div>
+    </div>
+    <p class="gallery-note">These are placeholder frames — drop in your own photos and they'll fill the space automatically, cropped to fit.</p>
   </div>
 </section>
 
 <section class="values">
   <div class="wrap">
     <div class="values-row">
-      <div class="value"><h3>Pasture-raised</h3><p>Every animal has real room to graze, not a pen.</p></div>
-      <div class="value"><h3>No hormones, no shortcuts</h3><p>What you buy is what the animal actually made.</p></div>
-      <div class="value"><h3>Small batches</h3><p>We sell what we have, not what we can scale to.</p></div>
-      <div class="value"><h3>You can just ask</h3><p>Come see the animals. We're usually around.</p></div>
+      <div class="value"><h3>Standard-bred, not hatchery stock</h3><p>Every bird and rabbit traces back to selected lines.</p></div>
+      <div class="value"><h3>Eggs, meat, or breeding stock</h3><p>Sold live, dressed, or as chicks and kits — your choice.</p></div>
+      <div class="value"><h3>Hand-raised, well socialized</h3><p>Handled daily from the brooder or nest box.</p></div>
+      <div class="value"><h3>Small, selective hatches &amp; litters</h3><p>We raise for quality, not volume — reserve ahead.</p></div>
     </div>
   </div>
 </section>
@@ -303,15 +506,15 @@
     <div>
       <div class="info-block">
         <h3>Where</h3>
-        <p>412 Hollow Creek Road<br>Open to the road, past the red mailbox.</p>
+        <p>Kirungu's Farm<br>Ask for directions when you reach out — we'll send the exact route.</p>
       </div>
       <div class="info-block">
-        <h3>Stand hours</h3>
-        <p>Wed – Sun, 8am – 6pm<br>Self-serve honor box when we're out in the field.</p>
+        <h3>Viewing hours</h3>
+        <p>Wed – Sun, 8am – 6pm<br>Call ahead if you want to see a specific breed pen.</p>
       </div>
       <div class="info-block">
-        <h3>Farm visits</h3>
-        <p>Saturday mornings, by request. Kids welcome — the goats especially like them.</p>
+        <h3>Reservations</h3>
+        <p>Chicks, bunnies, and hatching eggs go by waitlist, first come first served per hatch or litter. A deposit holds your spot.</p>
       </div>
     </div>
     <div>
@@ -326,7 +529,7 @@
         </div>
         <div>
           <label for="message">What can we help with?</label>
-          <textarea id="message" required placeholder="Asking about a farm visit, a standing egg order, anything at all."></textarea>
+          <textarea id="message" required placeholder="Asking about a breed, a bunny, joining the waitlist, or a farm visit."></textarea>
         </div>
         <button type="submit" class="btn btn-primary" style="align-self:flex-start;">Send message</button>
         <p class="form-status" id="form-status"></p>
@@ -337,7 +540,7 @@
 
 <footer>
   <div class="wrap">
-    Hollow Creek Farm — raised right, sold honest. <span>&#9733;</span>
+    Kirungu's Farm — ornamental birds &amp; rabbits, bred with care. <span>&#9733;</span>
   </div>
 </footer>
 
@@ -347,6 +550,123 @@ function handleSubmit(e){
   document.getElementById('form-status').textContent = "Thanks — we'll get back to you within a day or two.";
   e.target.reset();
 }
+</script>
+
+<!-- FAQ CHAT WIDGET -->
+<button class="chat-toggle" id="chat-toggle" aria-label="Open farm chat" aria-expanded="false">
+  <span class="chat-badge"></span>
+  <svg class="chat-toggle-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+  <svg class="chat-toggle-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+</button>
+
+<div class="chat-panel" id="chat-panel" role="dialog" aria-label="Farm questions chat">
+  <div class="chat-head">
+    <strong>Ask Kirungu's Farm</strong>
+    <span>Usually answers instantly · real replies within a day</span>
+  </div>
+  <div class="chat-body" id="chat-body"></div>
+  <div class="chat-quick" id="chat-quick"></div>
+  <form class="chat-input-row" id="chat-form">
+    <input id="chat-text" type="text" placeholder="Type a question…" autocomplete="off">
+    <button type="submit" class="chat-send" aria-label="Send">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></svg>
+    </button>
+  </form>
+</div>
+
+<script>
+(function(){
+  const faq = [
+    { q: "What breeds do you have?", keys: ["breed","breeds","chicken","kind","have"],
+      a: "We keep Brahma, Orpington, Silkie, Polish, and Sebright chickens, plus a growing rabbitry. Peacocks are coming soon!" },
+    { q: "What are your prices?", keys: ["price","cost","how much","ksh","fee"],
+      a: "Chicks run $18–$22, a Sebright trio is $120, mature laying hens are $35, hatching eggs are $40/dozen, and rabbit kits are $15. Dressed meat birds and rabbit are priced by weight — ask us for today's rate." },
+    { q: "Do you have rabbits?", keys: ["rabbit","bunny","bunnies","kit"],
+      a: "Yes — we raise rabbits alongside the birds. Kits, and mature does and bucks, available for pets, breeding, or meat." },
+    { q: "What are your hours?", keys: ["hour","open","time","when"],
+      a: "We're open Wed–Sun, 8am–6pm for viewing. Message us if you'd like to see a specific breed pen." },
+    { q: "How do I reserve a chick or bunny?", keys: ["reserve","waitlist","order","deposit","book"],
+      a: "Chicks, bunnies, and hatching eggs go by waitlist per hatch or litter — first come, first served. A small deposit holds your spot; message us to join the list." },
+    { q: "Where are you located?", keys: ["where","location","address","direction","far"],
+      a: "We're a bit off the beaten path — message us and we'll send you the exact route to the farm." },
+    { q: "Do you sell meat?", keys: ["meat","dressed","slaughter","butcher"],
+      a: "Yes, we sell dressed meat birds and rabbit by weight, at market price. Ask us what's available this week." },
+    { q: "Can I visit the farm?", keys: ["visit","tour","come","see"],
+      a: "Absolutely — our viewing hours are Wed–Sun, 8am–6pm. Just message us ahead of time so we know to expect you." }
+  ];
+  const fallback = "I don't have a canned answer for that one — send it through the contact form below and we'll get back to you within a day.";
+  const greeting = "Hi! I can answer quick questions about our breeds, prices, and visiting. Tap a question below or type your own.";
+
+  const toggle = document.getElementById('chat-toggle');
+  const panel = document.getElementById('chat-panel');
+  const body = document.getElementById('chat-body');
+  const quick = document.getElementById('chat-quick');
+  const form = document.getElementById('chat-form');
+  const input = document.getElementById('chat-text');
+  let started = false;
+
+  function addMsg(text, who){
+    const div = document.createElement('div');
+    div.className = 'chat-msg ' + who;
+    div.textContent = text;
+    body.appendChild(div);
+    body.scrollTop = body.scrollHeight;
+  }
+
+  function renderChips(){
+    quick.innerHTML = '';
+    faq.slice(0, 4).forEach(item=>{
+      const b = document.createElement('button');
+      b.className = 'chat-chip';
+      b.type = 'button';
+      b.textContent = item.q;
+      b.onclick = () => ask(item.q);
+      quick.appendChild(b);
+    });
+  }
+
+  function findAnswer(text){
+    const t = text.toLowerCase();
+    for (const item of faq){
+      if (item.keys.some(k => t.includes(k))) return item.a;
+    }
+    return fallback;
+  }
+
+  function ask(text){
+    addMsg(text, 'user');
+    setTimeout(() => addMsg(findAnswer(text), 'bot'), 350);
+  }
+
+  function openChat(){
+    panel.classList.add('open');
+    toggle.classList.add('open');
+    toggle.setAttribute('aria-expanded','true');
+    if (!started){
+      addMsg(greeting, 'bot');
+      renderChips();
+      started = true;
+    }
+    input.focus();
+  }
+  function closeChat(){
+    panel.classList.remove('open');
+    toggle.classList.remove('open');
+    toggle.setAttribute('aria-expanded','false');
+  }
+
+  toggle.addEventListener('click', () => {
+    panel.classList.contains('open') ? closeChat() : openChat();
+  });
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const val = input.value.trim();
+    if (!val) return;
+    ask(val);
+    input.value = '';
+  });
+})();
 </script>
 
 </body>
